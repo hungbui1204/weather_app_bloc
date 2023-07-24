@@ -6,7 +6,31 @@ import 'package:weather_app_bloc/state/weather_state.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final WeatherRepository weatherRepository;
-  WeatherBloc({required this.weatherRepository}) : super(WeatherStateInitial());
+  WeatherBloc({required this.weatherRepository})
+      : super(WeatherStateInitial()) {
+    on<WeatherEventRequested>((weatherEvent, emit) async {
+      emit(WeatherStateLoading());
+      print('get data');
+      try {
+        final Weather weather =
+            await weatherRepository.getWeatherFromCity(weatherEvent.city);
+        print('get data1');
+        emit(WeatherStateSuccess(weather: weather));
+      } catch (exception) {
+        print('get data 2');
+        emit(WeatherStateFailure());
+      }
+    });
+    on<WeatherEventRefresh>((weatherEvent, emit) async {
+      try {
+        final Weather weather =
+            await weatherRepository.getWeatherFromCity(weatherEvent.city);
+        emit(WeatherStateSuccess(weather: weather));
+      } catch (exception) {
+        emit(WeatherStateFailure());
+      }
+    });
+  }
 
   Stream<WeatherState> mapEventToState(WeatherEvent weatherEvent) async* {
     if (weatherEvent is WeatherEventRequested) {
