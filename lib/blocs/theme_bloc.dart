@@ -9,7 +9,6 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc()
       : super(const ThemeState(
             backgroundColor: Colors.lightBlue, textColor: Colors.white));
-
   Stream<ThemeState> mapEventToState(ThemeEvent themeEvent) async* {
     ThemeState newThemeState;
     if (themeEvent is ThemeEventWeatherChanged) {

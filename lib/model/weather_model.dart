@@ -20,21 +20,23 @@ enum WeatherCondition {
 }
 
 class Weather extends Equatable {
-  final WeatherCondition? weatherCondition;
-  final String? description;
-  final double? minTemp;
-  final double? maxTemp;
-  final double? temp;
-  final String? location;
-  final int? id;
+  final WeatherCondition weatherCondition;
+  final String description;
+  final double minTemp;
+  final double maxTemp;
+  final double temp;
+  final String location;
+  final int id;
+  final DateTime lastUpdated;
   const Weather(
-      {this.weatherCondition,
-      this.description,
-      this.minTemp,
-      this.maxTemp,
-      this.temp,
-      this.location,
-      this.id});
+      {required this.weatherCondition,
+      required this.description,
+      required this.minTemp,
+      required this.maxTemp,
+      required this.temp,
+      required this.location,
+      required this.id,
+      required this.lastUpdated});
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
         weatherCondition:
@@ -44,7 +46,8 @@ class Weather extends Equatable {
         maxTemp: json['main']['temp']['temp_max'] as double,
         temp: json['main']['temp'] as double,
         location: json['name'] ?? '',
-        id: json['id'] as int);
+        id: json['id'] as int,
+        lastUpdated: DateTime.now());
   }
   static WeatherCondition _mapStringToWeatherCondition(String inputString) {
     Map<String, WeatherCondition> map = {
