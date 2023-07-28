@@ -38,15 +38,15 @@ class Weather extends Equatable {
       required this.id,
       required this.lastUpdated});
   factory Weather.fromJson(Map<String, dynamic> json) {
+    final weather = json['weather'][0];
     return Weather(
-        weatherCondition:
-            _mapStringToWeatherCondition(json['weather']['main'] ?? ''),
-        description: json['weather']['description'] ?? '',
+        weatherCondition: _mapStringToWeatherCondition(weather['main'] ?? ''),
+        description: weather['description'] ?? '',
         minTemp: json['main']['temp_min'] as double,
-        maxTemp: json['main']['temp']['temp_max'] as double,
+        maxTemp: json['main']['temp_max'] as double,
         temp: json['main']['temp'] as double,
         location: json['name'] ?? '',
-        id: json['id'] as int,
+        id: json['id'] ?? 0,
         lastUpdated: DateTime.now());
   }
   static WeatherCondition _mapStringToWeatherCondition(String inputString) {

@@ -10,6 +10,7 @@ import 'package:weather_app_bloc/screens/city_search_screen.dart';
 import 'package:weather_app_bloc/screens/settings_screen.dart';
 import 'package:weather_app_bloc/state/theme_state.dart';
 import 'package:weather_app_bloc/state/weather_state.dart';
+import 'package:weather_app_bloc/widget/temp_widget.dart';
 
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({Key? key}) : super(key: key);
@@ -104,7 +105,8 @@ class _WeatherScreen extends State<WeatherScreen> {
                                 style: TextStyle(
                                     fontSize: 16, color: themesState.textColor),
                               ),
-                            )
+                            ),
+                            TemperatureWidget(weather: weather),
                           ],
                         )
                       ],
