@@ -93,9 +93,26 @@ class _WeatherScreen extends State<WeatherScreen> {
                             Text(
                               weather.location,
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                   color: themesState.textColor),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  weather.state,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: themesState.textColor),
+                                ),
+                                Text(
+                                  ' (${weather.description})',
+                                  style:
+                                      TextStyle(color: themesState.textColor),
+                                ),
+                              ],
                             ),
                             const Padding(
                                 padding: EdgeInsets.symmetric(vertical: 2)),

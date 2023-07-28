@@ -27,10 +27,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, themeState) {
       return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: BlocProvider(
           create: (context) =>
               WeatherBloc(weatherRepository: weatherRepository),
-          child: WeatherScreen(),
+          child: const WeatherScreen(),
         ),
       );
     });
