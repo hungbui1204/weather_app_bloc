@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:weather_app_bloc/blocs/theme_bloc.dart';
 import 'package:weather_app_bloc/blocs/weather_bloc.dart';
 import 'package:weather_app_bloc/events/theme_event.dart';
 import 'package:weather_app_bloc/events/weather_event.dart';
+import 'package:weather_app_bloc/model/weather_model.dart';
 import 'package:weather_app_bloc/screens/city_search_screen.dart';
 import 'package:weather_app_bloc/screens/settings_screen.dart';
 import 'package:weather_app_bloc/state/theme_state.dart';
@@ -90,12 +92,27 @@ class _WeatherScreen extends State<WeatherScreen> {
                       children: [
                         Column(
                           children: [
-                            Text(
-                              weather.location,
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  color: themesState.textColor),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    weather.location,
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: themesState.textColor),
+                                  ),
+                                  Text(
+                                    ' (${weather.nation})',
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: themesState.textColor),
+                                  )
+                                ],
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -113,6 +130,16 @@ class _WeatherScreen extends State<WeatherScreen> {
                                       TextStyle(color: themesState.textColor),
                                 ),
                               ],
+                            ),
+                            SizedBox(
+                              height: 200,
+                              width: 200,
+                              child: LottieBuilder.network(
+                                Weather.mapWeatherConditionToIcon(
+                                    weather.state, weather.lastUpdated),
+                                repeat: true,
+                                fit: BoxFit.fill,
+                              ),
                             ),
                             const Padding(
                                 padding: EdgeInsets.symmetric(vertical: 2)),

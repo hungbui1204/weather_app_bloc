@@ -14,13 +14,4 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
               : TemperatureUnit.celsius));
     });
   }
-
-  // Stream<SettingsState> mapEventToState(SettingEvent settingEvent) async* {
-  //   if (settingEvent is SettingEventToggleUnit) {
-  //     yield SettingsState(
-  //         temperatureUnit: state.temperatureUnit == TemperatureUnit.celsius
-  //             ? TemperatureUnit.fahrenheit
-  //             : TemperatureUnit.celsius);
-  //   }
-  // }
 }

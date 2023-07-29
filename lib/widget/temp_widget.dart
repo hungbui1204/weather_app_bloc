@@ -10,7 +10,7 @@ class TemperatureWidget extends StatelessWidget {
   final Weather weather;
   const TemperatureWidget({super.key, required this.weather});
 
-  int _toCelsius(double fahrenheit) => ((fahrenheit - 32) * 9 / 5).round();
+  int _toCelsius(double fahrenheit) => ((fahrenheit - 32) * 5 / 9).round();
   String _formattedTemp(double temp, TemperatureUnit unit) {
     return unit == TemperatureUnit.fahrenheit
         ? '${temp.round()}°F'

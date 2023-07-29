@@ -44,40 +44,4 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       return emit(newThemeState);
     });
   }
-  // Stream<ThemeState> mapEventToState(ThemeEvent themeEvent) async* {
-  //   ThemeState newThemeState;
-  //   if (themeEvent is ThemeEventWeatherChanged) {
-  //     final weatherCondition = themeEvent.weatherCondition;
-  //     if (weatherCondition == WeatherCondition.clear) {
-  //       newThemeState = const ThemeState(
-  //           backgroundColor: Colors.yellow, textColor: Colors.black);
-  //     } else if (weatherCondition == WeatherCondition.clouds) {
-  //       newThemeState = const ThemeState(
-  //           backgroundColor: Colors.grey, textColor: Colors.black);
-  //     } else if (weatherCondition == WeatherCondition.rain ||
-  //         weatherCondition == WeatherCondition.drizzle) {
-  //       newThemeState = const ThemeState(
-  //           backgroundColor: Colors.indigo, textColor: Colors.white);
-  //     } else if (weatherCondition == WeatherCondition.snow ||
-  //         weatherCondition == WeatherCondition.dust ||
-  //         weatherCondition == WeatherCondition.ash ||
-  //         weatherCondition == WeatherCondition.fog ||
-  //         weatherCondition == WeatherCondition.mist ||
-  //         weatherCondition == WeatherCondition.haze ||
-  //         weatherCondition == WeatherCondition.sand ||
-  //         weatherCondition == WeatherCondition.smoke ||
-  //         weatherCondition == WeatherCondition.squall) {
-  //       newThemeState = const ThemeState(
-  //           backgroundColor: Colors.lightBlue, textColor: Colors.white);
-  //     } else if (weatherCondition == WeatherCondition.thunderstorm ||
-  //         weatherCondition == WeatherCondition.tornado) {
-  //       newThemeState = const ThemeState(
-  //           backgroundColor: Colors.deepPurple, textColor: Colors.white);
-  //     } else {
-  //       newThemeState = const ThemeState(
-  //           backgroundColor: Colors.blueAccent, textColor: Colors.white);
-  //     }
-  //     yield newThemeState;
-  //   }
-  // }
 }
