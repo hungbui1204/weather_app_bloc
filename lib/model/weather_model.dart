@@ -31,6 +31,9 @@ class Weather extends Equatable {
   final String location;
   final int id;
   final DateTime lastUpdated;
+  final double windSpeed;
+  final int humidity;
+  final int visibility;
   const Weather(
       {required this.weatherCondition,
       required this.state,
@@ -41,7 +44,10 @@ class Weather extends Equatable {
       required this.temp,
       required this.location,
       required this.id,
-      required this.lastUpdated});
+      required this.lastUpdated,
+      required this.humidity,
+      required this.visibility,
+      required this.windSpeed});
   factory Weather.fromJson(Map<String, dynamic> json) {
     final weather = json['weather'][0];
     return Weather(
@@ -54,7 +60,10 @@ class Weather extends Equatable {
         temp: json['main']['temp'] as double,
         location: json['name'] ?? '',
         id: json['id'] ?? 0,
-        lastUpdated: DateTime.now());
+        lastUpdated: DateTime.now(),
+        humidity: json['main']['humidity'] ?? 0,
+        visibility: json['visibility'] ?? 0,
+        windSpeed: json['wind']['speed'] as double);
   }
   static String mapWeatherConditionToIcon(
       String weatherCondition, DateTime dateTime) {
@@ -69,7 +78,43 @@ class Weather extends Equatable {
       ],
       'Rain': [
         'https://lottie.host/9a388e77-30b7-4e6d-90af-9d212380b3ab/jhffag9D9L.json',
+        'https://lottie.host/44e7e96a-36fd-4fe0-9aa2-ab39e601fea3/DGAmCPtasi.json',
+      ],
+      'Drizzle': [
+        'https://lottie.host/9a388e77-30b7-4e6d-90af-9d212380b3ab/jhffag9D9L.json',
         'https://lottie.host/44e7e96a-36fd-4fe0-9aa2-ab39e601fea3/DGAmCPtasi.json'
+      ],
+      'Thunderstorm': [
+        'https://lottie.host/27ccfb91-1b5b-4215-b680-40123f60d1f6/yLad2kuueW.json',
+        'https://lottie.host/27ccfb91-1b5b-4215-b680-40123f60d1f6/yLad2kuueW.json'
+      ],
+      'Tornado': [
+        'https://lottie.host/27ccfb91-1b5b-4215-b680-40123f60d1f6/yLad2kuueW.json',
+        'https://lottie.host/27ccfb91-1b5b-4215-b680-40123f60d1f6/yLad2kuueW.json'
+      ],
+      'Mist': [
+        'https://lottie.host/1f53f7f1-3245-465a-ad9d-69d09d72e61a/iMfgBEDx07.json',
+        'https://lottie.host/1f53f7f1-3245-465a-ad9d-69d09d72e61a/iMfgBEDx07.json'
+      ],
+      'Haze': [
+        'https://lottie.host/1f53f7f1-3245-465a-ad9d-69d09d72e61a/iMfgBEDx07.json',
+        'https://lottie.host/1f53f7f1-3245-465a-ad9d-69d09d72e61a/iMfgBEDx07.json'
+      ],
+      'Dust': [
+        'https://lottie.host/1f53f7f1-3245-465a-ad9d-69d09d72e61a/iMfgBEDx07.json',
+        'https://lottie.host/1f53f7f1-3245-465a-ad9d-69d09d72e61a/iMfgBEDx07.json'
+      ],
+      'Smoke': [
+        'https://lottie.host/1f53f7f1-3245-465a-ad9d-69d09d72e61a/iMfgBEDx07.json',
+        'https://lottie.host/1f53f7f1-3245-465a-ad9d-69d09d72e61a/iMfgBEDx07.json'
+      ],
+      'Fog': [
+        'https://lottie.host/1f53f7f1-3245-465a-ad9d-69d09d72e61a/iMfgBEDx07.json',
+        'https://lottie.host/1f53f7f1-3245-465a-ad9d-69d09d72e61a/iMfgBEDx07.json'
+      ],
+      'Snow': [
+        'https://lottie.host/bc7bad02-0eac-4f02-9a90-321f79239839/Ms6etxuC6f.json',
+        'https://lottie.host/bc7bad02-0eac-4f02-9a90-321f79239839/Ms6etxuC6f.json'
       ]
     };
     if (dateTime.hour <= const TimeOfDay(hour: 18, minute: 0).hour) {
@@ -102,6 +147,16 @@ class Weather extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props =>
-      [weatherCondition, minTemp, maxTemp, temp, temp, location, id];
+  List<Object?> get props => [
+        weatherCondition,
+        minTemp,
+        maxTemp,
+        temp,
+        temp,
+        location,
+        id,
+        visibility,
+        windSpeed,
+        humidity
+      ];
 }

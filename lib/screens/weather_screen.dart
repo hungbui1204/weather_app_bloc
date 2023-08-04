@@ -33,8 +33,10 @@ class _WeatherScreen extends State<WeatherScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Weather App Using Bloc'),
+        elevation: 0,
+        title: const Text('Weather Today'),
         actions: [
           IconButton(
             onPressed: () async {
@@ -50,7 +52,7 @@ class _WeatherScreen extends State<WeatherScreen> {
                 final typedCity = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CitySearchScreen()));
+                        builder: (context) => const CitySearchScreen()));
                 if (typedCity != null) {
                   BlocProvider.of<WeatherBloc>(context)
                       .add(WeatherEventRequested(city: typedCity));
@@ -59,124 +61,131 @@ class _WeatherScreen extends State<WeatherScreen> {
               icon: const Icon(Icons.search))
         ],
       ),
-      body: Center(
-        child: BlocConsumer<WeatherBloc, WeatherState>(
-          listener: (context, weatherState) {
-            if (weatherState is WeatherStateSuccess) {
-              BlocProvider.of<ThemeBloc>(context).add(ThemeEventWeatherChanged(
-                  weatherCondition: weatherState.weather.weatherCondition));
-              _completer.complete();
-              _completer = Completer();
-            }
-          },
-          builder: (context, weatherState) {
-            if (weatherState is WeatherStateLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (weatherState is WeatherStateSuccess) {
-              final weather = weatherState.weather;
-              return BlocBuilder<ThemeBloc, ThemeState>(
-                  builder: (context, themesState) {
-                return RefreshIndicator(
-                  onRefresh: () {
-                    BlocProvider.of<WeatherBloc>(context)
-                        .add(WeatherEventRefresh(city: weather.location));
-                    //return a completer obj
-                    return _completer.future;
-                  },
-                  child: Container(
-                    color: themesState.backgroundColor,
-                    child: ListView(
-                      children: [
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    weather.location,
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        color: themesState.textColor),
-                                  ),
-                                  Text(
-                                    ' (${weather.nation})',
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        color: themesState.textColor),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Row(
+      body: BlocConsumer<WeatherBloc, WeatherState>(
+        listener: (context, weatherState) {
+          if (weatherState is WeatherStateSuccess) {
+            BlocProvider.of<ThemeBloc>(context).add(ThemeEventWeatherChanged(
+                weatherCondition: weatherState.weather.weatherCondition));
+            _completer.complete();
+            _completer = Completer();
+          }
+        },
+        builder: (context, weatherState) {
+          if (weatherState is WeatherStateLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (weatherState is WeatherStateSuccess) {
+            final weather = weatherState.weather;
+            return BlocBuilder<ThemeBloc, ThemeState>(
+                builder: (context, themesState) {
+              return RefreshIndicator(
+                onRefresh: () {
+                  BlocProvider.of<WeatherBloc>(context)
+                      .add(WeatherEventRefresh(city: weather.location));
+                  //return a completer obj
+                  return _completer.future;
+                },
+                child: Container(
+                  color: themesState.backgroundColor,
+                  child: ListView(
+                    children: [
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  weather.state,
+                                  weather.location,
                                   style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 25,
                                       fontWeight: FontWeight.bold,
                                       color: themesState.textColor),
                                 ),
                                 Text(
-                                  ' (${weather.description})',
-                                  style:
-                                      TextStyle(color: themesState.textColor),
-                                ),
+                                  ' (${weather.nation})',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: themesState.textColor),
+                                )
                               ],
                             ),
-                            SizedBox(
-                              height: 200,
-                              width: 200,
-                              child: LottieBuilder.network(
-                                Weather.mapWeatherConditionToIcon(
-                                    weather.state, weather.lastUpdated),
-                                repeat: true,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 2)),
-                            Center(
-                              child: Text(
-                                'Update: ${TimeOfDay.fromDateTime(weather.lastUpdated).format(context)}',
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                weather.state,
                                 style: TextStyle(
-                                    fontSize: 16, color: themesState.textColor),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: themesState.textColor),
                               ),
+                              Text(
+                                ' (${weather.description})',
+                                style: TextStyle(color: themesState.textColor),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 200,
+                            width: 200,
+                            child: LottieBuilder.network(
+                              Weather.mapWeatherConditionToIcon(
+                                  weather.state, weather.lastUpdated),
+                              repeat: true,
+                              fit: BoxFit.fill,
                             ),
-                            TemperatureWidget(weather: weather),
-                          ],
-                        )
-                      ],
-                    ),
+                          ),
+                          const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 2)),
+                          Center(
+                            child: Text(
+                              'Update: ${TimeOfDay.fromDateTime(weather.lastUpdated).format(context)}',
+                              style: TextStyle(
+                                  fontSize: 16, color: themesState.textColor),
+                            ),
+                          ),
+                          TemperatureWidget(weather: weather),
+                        ],
+                      )
+                    ],
                   ),
-                );
-              });
-            }
-            if (weatherState is WeatherStateFailure) {
-              return const Center(
-                child: Text(
-                  'Something went wrong',
-                  style: TextStyle(color: Colors.red, fontSize: 16),
                 ),
               );
-            }
+            });
+          }
+          if (weatherState is WeatherStateFailure) {
             return const Center(
               child: Text(
-                'Select a location first',
-                style: TextStyle(
-                  fontSize: 30,
-                ),
+                'Something went wrong, please try again',
+                style: TextStyle(color: Colors.red, fontSize: 16),
               ),
             );
-          },
-        ),
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Please add location',
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green),
+              ),
+              SizedBox(
+                  height: 350,
+                  child: Image.asset(
+                    'assets/imgs/umbrella.jpg',
+                    fit: BoxFit.fill,
+                  )),
+            ],
+          );
+        },
       ),
     );
   }

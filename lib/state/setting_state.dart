@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum TemperatureUnit { fahrenheit, celsius }
+enum TemperatureUnit { fahrenheit, celsius, kelvin }
 
 class SettingsState extends Equatable {
   final TemperatureUnit temperatureUnit;
